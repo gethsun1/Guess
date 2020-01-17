@@ -1,0 +1,67 @@
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div class="output">
+      <div class="message"></div>
+      <br />
+      <hr style="color: black;" />
+      <input type="number" />
+      <button>Guess</button>
+    </div>
+    <script>
+      let game = { min: 1, max: 10 };
+
+      document.addEventListener('DOMContentLoaded', function() {
+        //console.log("Ready");
+        game.output = document.querySelector('.output');
+        game.message = document.querySelector('.message');
+        game.guess_input = document.querySelector('input');
+        game.btn = document.querySelector('button');
+        game.btn = document.addEventListener('click', guessed);
+
+        init();
+      });
+
+      function init() {
+        game.num = raNumber(game.min, game.max);
+        let tempMes =
+          'Welcome  to the game. Guess  a number from' +
+          game.min +
+          'to' +
+          game.max;
+
+        message(tempMes, 'green');
+      }
+
+      function message(mes, clr) {
+        game.message.innerHTML = mes;
+        game.message.style.color = clr || 'black';
+      }
+
+      function guessed() {
+        let guessInput = game.guess_input.value;
+        guessInput = parseInt(guessInput);
+        if (isNaN(guessInput)) {
+          message('Not Allowed!! Enter Only Numerical digits', 'red');
+        } else if (guessInput === game.num) {
+          message('Correct! you got it  ' + game.num, 'green');
+          game.guess_input.value.style.borderColor = 'green';
+        } else {
+          let holder =
+            guessInput > game.num
+              ? { m: 'Was Higher', c: 'blue' }
+              : { m: 'Was Lower', c: 'red' };
+          message(holder.m, holder.c);
+          game.guess_input.value.style.borderColor = holder.c;
+        }
+      }
+
+      function raNumber(max, min) {
+        return Math.floor(Math.random() * (max - min + 1) + min);
+      }
+    </script>
+  </body>
+</html>
